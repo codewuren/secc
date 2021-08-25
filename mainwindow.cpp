@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     this->setCentralWidget(ui->textEdit);
+    highlighter = new Highlighter(ui->textEdit->document()); //highlight
 }
 
 MainWindow::~MainWindow()
@@ -123,5 +124,5 @@ void MainWindow::on_actionExit_triggered()
 }
 
 void MainWindow::on_actionAbout_triggered() {
-    QMessageBox::information(NULL, "About", "I\'m a high school student from China.\n My Blog is https://codewuren.github.io\n And you can follow me on GitHub: https://github.com", QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+    QMessageBox::information(NULL, "About", "I\'m a high school student from China.\n My Blog is https://codewuren.github.io\n And you can follow me on GitHub at https://github.com", QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
 }

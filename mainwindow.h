@@ -6,6 +6,7 @@
 #include <QFileDialog>
 #include <QTextStream>
 #include <QMessageBox>
+#include "highlighter.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,6 +22,7 @@ public:
 private:
     Ui::MainWindow *ui;
     QString currentFile = "";
+    Highlighter *highlighter;
 
 private slots:
     void on_actionNew_triggered();
