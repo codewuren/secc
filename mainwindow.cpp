@@ -29,33 +29,35 @@ void MainWindow::on_actionOpen_triggered()
     // Opens a dialog that allows you to select a file to open
     QString fileName = QFileDialog::getOpenFileName(this, "Open File");
 
-    // An object for reading and writing files
-    QFile file(fileName);
+    if (fileName != NULL) {
+        // An object for reading and writing files
+        QFile file(fileName);
 
-    // Store the currentFile name
-    currentFile = fileName;
+        // Store the currentFile name
+        currentFile = fileName;
 
-    // Try to open the file as a read only file if possible or display a
-    // warning dialog box
-    if (!file.open(QIODevice::ReadOnly | QFile::Text)) {
-        QMessageBox::warning(this, "Warning", "Cannot open file: " + file.errorString());
-        return;
+        // Try to open the file as a read only file if possible or display a
+        // warning dialog box
+        if (!file.open(QIODevice::ReadOnly | QFile::Text)) {
+            QMessageBox::warning(this, "Warning", "Cannot open file: " + file.errorString());
+            return;
+        }
+
+        // Set the title for the window to the file name
+        setWindowTitle(fileName);
+
+        // Interface for reading text
+        QTextStream in(&file);
+
+        // Copy text in the string
+        QString text = in.readAll();
+
+        // Put the text in the textEdit widget
+        ui->textEdit->setText(text);
+
+        // Close the file
+        file.close();
     }
-
-    // Set the title for the window to the file name
-    setWindowTitle(fileName);
-
-    // Interface for reading text
-    QTextStream in(&file);
-
-    // Copy text in the string
-    QString text = in.readAll();
-
-    // Put the text in the textEdit widget
-    ui->textEdit->setText(text);
-
-    // Close the file
-    file.close();
 }
 
 void MainWindow::on_actionSave_as_triggered()
@@ -121,11 +123,6 @@ void MainWindow::on_actionSave_triggered()
         // Close the file
         file.close();
     }
-}
-
-void MainWindow::on_actionExit_triggered()
-{
-    QApplication::quit();
 }
 
 void MainWindow::on_actionAbout_triggered() {
