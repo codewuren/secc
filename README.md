@@ -12,6 +12,10 @@
 
 [JetBrains Mono](https://www.jetbrains.com/lp/mono/)
 
+### Screen Shot
+
+![1](https://raw.githubusercontent.com/codewuren/secc/master/secc1.png)
+
 ### Future
 
 * Highlight current line.
