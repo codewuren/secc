@@ -93,29 +93,32 @@ void MainWindow::on_actionSave_as_triggered()
 
 void MainWindow::on_actionSave_triggered()
 {
-    // An object for reading and writing files
-    QFile file(currentFile);
+    if (currentFile == NULL) on_actionSave_as_triggered();
+    else {
+        // An object for reading and writing files
+        QFile file(currentFile);
 
-    // Try to open a file with write only options
-    if (!file.open(QFile::WriteOnly | QFile::Text)) {
-        QMessageBox::warning(this, "Warning", "Cannot save file: " + file.errorString());
-        return;
+        // Try to open a file with write only options
+        if (!file.open(QFile::WriteOnly | QFile::Text)) {
+            QMessageBox::warning(this, "Warning", "Cannot save file: " + file.errorString());
+            return;
+        }
+
+        // Set the title for the window to the file name
+        setWindowTitle(currentFile);
+
+        // Interface for writing text
+        QTextStream out(&file);
+
+        // Copy text in the textEdit widget and convert to plain text
+        QString text = ui->textEdit->toPlainText();
+
+        // Output to file
+        out << text;
+
+        // Close the file
+        file.close();
     }
-
-    // Set the title for the window to the file name
-    setWindowTitle(currentFile);
-
-    // Interface for writing text
-    QTextStream out(&file);
-
-    // Copy text in the textEdit widget and convert to plain text
-    QString text = ui->textEdit->toPlainText();
-
-    // Output to file
-    out << text;
-
-    // Close the file
-    file.close();
 }
 
 void MainWindow::on_actionExit_triggered()
@@ -124,5 +127,5 @@ void MainWindow::on_actionExit_triggered()
 }
 
 void MainWindow::on_actionAbout_triggered() {
-    QMessageBox::information(NULL, "About", "I\'m a high school student from China.\n My Blog is https://codewuren.github.io\n And you can follow me on GitHub at https://github.com", QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+    QMessageBox::information(NULL, "About", "I\'m a high school student from China.\nMy Blog is https://codewuren.github.io\nAnd you can follow me on GitHub at https://github.com", QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
 }
