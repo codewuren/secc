@@ -126,5 +126,5 @@ void MainWindow::on_actionSave_triggered()
 }
 
 void MainWindow::on_actionAbout_triggered() {
-    QMessageBox::information(NULL, "About", "I\'m a high school student from China.\nMy Blog is https://codewuren.github.io\nAnd you can follow me on GitHub at https://github.com", QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+    QMessageBox::information(NULL, "About", "I\'m a high school student from China.\nMy Blog is https://codewuren.github.io\nAnd you can follow me on GitHub at https://github.com", QMessageBox::Close, QMessageBox::Close);
 }
