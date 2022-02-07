@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     this->setCentralWidget(ui->textEdit);
+    createStatusBar();
     highlighter = new Highlighter(ui->textEdit->document()); //highlight
 }
 
@@ -19,6 +20,9 @@ void MainWindow::on_actionNew_triggered()
 {
     // Global referencing the current file that we are clearing
     currentFile.clear();
+
+    // Clear status bar
+    clearStatusBar();
 
     // Clear the textEdit widget buffer
     ui->textEdit->setText(QString());
@@ -45,6 +49,9 @@ void MainWindow::on_actionOpen_triggered()
 
         // Set the title for the window to the file name
         setWindowTitle(fileName);
+
+        // Set status bar
+        changeStatusBar(fileName);
 
         // Interface for reading text
         QTextStream in(&file);
@@ -81,6 +88,9 @@ void MainWindow::on_actionSave_as_triggered()
         // Set the title for the window to the file name
         setWindowTitle(fileName);
 
+        // Set status bar
+        changeStatusBar(fileName);
+
         // Interface for writing text
         QTextStream out(&file);
 
@@ -97,8 +107,7 @@ void MainWindow::on_actionSave_as_triggered()
 
 void MainWindow::on_actionSave_triggered()
 {
-    if (currentFile == NULL) on_actionSave_as_triggered();
-    else {
+    if (currentFile != NULL) {
         // An object for reading and writing files
         QFile file(currentFile);
 
@@ -110,6 +119,9 @@ void MainWindow::on_actionSave_triggered()
 
         // Set the title for the window to the file name
         setWindowTitle(currentFile);
+
+        // Set status bar
+        changeStatusBar(currentFile);
 
         // Interface for writing text
         QTextStream out(&file);
@@ -123,8 +135,22 @@ void MainWindow::on_actionSave_triggered()
         // Close the file
         file.close();
     }
+    else on_actionSave_as_triggered(); // If don't exist this file then create it
 }
 
 void MainWindow::on_actionAbout_triggered() {
     QMessageBox::information(NULL, "About", "I\'m a high school student from China.\nMy Blog is https://codewuren.github.io\nAnd you can follow me on GitHub at https://github.com", QMessageBox::Close, QMessageBox::Close);
+}
+
+void MainWindow::createStatusBar() {
+    statusBar()->showMessage(tr("Ready"));
+}
+
+void MainWindow::changeStatusBar(QString fileName) {
+    statusBar()->clearMessage();
+    statusBar()->showMessage(fileName);
+}
+
+void MainWindow::clearStatusBar() {
+    statusBar()->clearMessage();
 }

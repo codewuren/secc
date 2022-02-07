@@ -6,6 +6,7 @@
 #include <QFileDialog>
 #include <QTextStream>
 #include <QMessageBox>
+#include <QStatusBar>
 #include "highlighter.h"
 
 QT_BEGIN_NAMESPACE
@@ -30,5 +31,8 @@ private slots:
     void on_actionSave_as_triggered();
     void on_actionSave_triggered();
     void on_actionAbout_triggered();
+    void createStatusBar();
+    void changeStatusBar(QString fileName);
+    void clearStatusBar();
 };
 #endif // MAINWINDOW_H
