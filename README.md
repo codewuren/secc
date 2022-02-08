@@ -8,6 +8,23 @@
 
 [QT Creator](https://www.qt.io/product/development-tools)
 
+### Usage
+
+You can quickly open a file with command:
+```bash
+secc a.cc
+```
+if you added it to you system `PATH`.
+
+### Shortcut keys
+
+| Key | Function |
+| :-: | :-: |
+| C-n | New File |
+| C-f | Open File |
+| C-s | Save File |
+| C-S | Save as |
+
 ### Font
 
 [JetBrains Mono](https://www.jetbrains.com/lp/mono/)
@@ -19,5 +36,4 @@
 ### Future
 
 * Highlight current line.
-* Shortcut key.
 * More beautiful interface.
