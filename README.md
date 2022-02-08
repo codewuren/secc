@@ -10,6 +10,12 @@
 
 ### Usage
 
+Type:
+```bash
+secc --help
+```
+To know the usage.
+
 You can quickly open a file with command:
 ```bash
 secc a.cc

@@ -171,7 +171,7 @@ void MainWindow::OpenFileCommand(){
         // Try to open the file as a read only file if possible or display a
         // warning dialog box
         if (!file.open(QIODevice::ReadOnly | QFile::Text)) {
-            QMessageBox::warning(this, "Warning", "Cannot open file: " + file.errorString());
+            QMessageBox::warning(this, "Warning", "Cannot open file: " + file.errorString() + "" + FN);
             return;
         }
 

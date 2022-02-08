@@ -10,11 +10,9 @@
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
-    if (argc > 1) {
-        FN = argv[argc - 1];
-        std::cout << argv[argc - 1] << std::endl;
-    } else {
-        std::cout << "No arg" << std::endl;
+    for (int i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "--help") == 0) usage();
+        else FN = argv[argc - 1];
     }
     MainWindow window;
     window.show();
