@@ -38,7 +38,7 @@ void MainWindow::NewFile() {
 void MainWindow::OpenFile() {
     // Opens a dialog that allows you to select a file to open
     QString fileName = QFileDialog::getOpenFileName(this, "Open File");
-    if (fileName != NULL) {
+    if (fileName != "") {
         // An object for reading and writing files
         QFile file(fileName);
 
@@ -77,7 +77,7 @@ void MainWindow::SaveAs() {
     // Opens a dialog for saving a file
     QString fileName = QFileDialog::getSaveFileName(this, "Save as");
 
-    if (fileName != NULL) {
+    if (fileName != "") {
         // An object for reading and writing files
         QFile file(fileName);
 
@@ -111,7 +111,7 @@ void MainWindow::SaveAs() {
 }
 
 void MainWindow::Save() {
-    if (currentFile != NULL) {
+    if (currentFile != "") {
         // An object for reading and writing files
         QFile file(currentFile);
 
@@ -161,7 +161,7 @@ void MainWindow::ClearStatusBar() {
 
 // To open a file if user used command with the arguement of file name
 void MainWindow::OpenFileCommand(){
-    if (FN != NULL) {
+    if (FN != "") {
         // An object for reading and writing files
         QFile file(FN);
 
