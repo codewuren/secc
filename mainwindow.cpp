@@ -1,38 +1,43 @@
+/*
+*   Author: CodeWuRen
+*/
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "arg.h"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
-{
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
     this->setCentralWidget(ui->textEdit);
-    createStatusBar();
+    CreateStatusBar();
     highlighter = new Highlighter(ui->textEdit->document()); //highlight
+    OpenFileCommand(); // To open a file if user used command with the arguement of file name
+    /* Some Bindings */
+    connect(ui->actionNew, SIGNAL(triggered()), this, SLOT(NewFile()));
+    connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(OpenFile()));
+    connect(ui->actionSave_as, SIGNAL(triggered()), this, SLOT(SaveAs()));
+    connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(Save()));
+    connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(About()));
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow() {
     delete ui;
 }
 
-void MainWindow::on_actionNew_triggered()
-{
+void MainWindow::NewFile() {
     // Global referencing the current file that we are clearing
     currentFile.clear();
 
     // Clear status bar
-    clearStatusBar();
+    ClearStatusBar();
 
     // Clear the textEdit widget buffer
     ui->textEdit->setText(QString());
 }
 
-void MainWindow::on_actionOpen_triggered()
-{
+void MainWindow::OpenFile() {
     // Opens a dialog that allows you to select a file to open
     QString fileName = QFileDialog::getOpenFileName(this, "Open File");
-
     if (fileName != NULL) {
         // An object for reading and writing files
         QFile file(fileName);
@@ -51,7 +56,7 @@ void MainWindow::on_actionOpen_triggered()
         setWindowTitle(fileName);
 
         // Set status bar
-        changeStatusBar(fileName);
+        ChangeStatusBar(fileName);
 
         // Interface for reading text
         QTextStream in(&file);
@@ -65,10 +70,10 @@ void MainWindow::on_actionOpen_triggered()
         // Close the file
         file.close();
     }
+
 }
 
-void MainWindow::on_actionSave_as_triggered()
-{
+void MainWindow::SaveAs() {
     // Opens a dialog for saving a file
     QString fileName = QFileDialog::getSaveFileName(this, "Save as");
 
@@ -89,7 +94,7 @@ void MainWindow::on_actionSave_as_triggered()
         setWindowTitle(fileName);
 
         // Set status bar
-        changeStatusBar(fileName);
+        ChangeStatusBar(fileName);
 
         // Interface for writing text
         QTextStream out(&file);
@@ -105,8 +110,7 @@ void MainWindow::on_actionSave_as_triggered()
     }
 }
 
-void MainWindow::on_actionSave_triggered()
-{
+void MainWindow::Save() {
     if (currentFile != NULL) {
         // An object for reading and writing files
         QFile file(currentFile);
@@ -121,7 +125,7 @@ void MainWindow::on_actionSave_triggered()
         setWindowTitle(currentFile);
 
         // Set status bar
-        changeStatusBar(currentFile);
+        ChangeStatusBar(currentFile);
 
         // Interface for writing text
         QTextStream out(&file);
@@ -135,22 +139,58 @@ void MainWindow::on_actionSave_triggered()
         // Close the file
         file.close();
     }
-    else on_actionSave_as_triggered(); // If don't exist this file then create it
+    else SaveAs(); // If don't exist this file then create it
 }
 
-void MainWindow::on_actionAbout_triggered() {
+void MainWindow::About() {
     QMessageBox::information(NULL, "About", "I\'m a high school student from China.\nMy Blog is https://codewuren.github.io\nAnd you can follow me on GitHub at https://github.com", QMessageBox::Close, QMessageBox::Close);
 }
 
-void MainWindow::createStatusBar() {
+void MainWindow::CreateStatusBar() {
     statusBar()->showMessage(tr("Ready"));
 }
 
-void MainWindow::changeStatusBar(QString fileName) {
+void MainWindow::ChangeStatusBar(QString fileName) {
     statusBar()->clearMessage();
     statusBar()->showMessage(fileName);
 }
 
-void MainWindow::clearStatusBar() {
+void MainWindow::ClearStatusBar() {
     statusBar()->clearMessage();
+}
+
+// To open a file if user used command with the arguement of file name
+void MainWindow::OpenFileCommand(){
+    if (FN != NULL) {
+        // An object for reading and writing files
+        QFile file(FN);
+
+        // Store the currentFile name
+        currentFile = FN;
+
+        // Try to open the file as a read only file if possible or display a
+        // warning dialog box
+        if (!file.open(QIODevice::ReadOnly | QFile::Text)) {
+            QMessageBox::warning(this, "Warning", "Cannot open file: " + file.errorString());
+            return;
+        }
+
+        // Set the title for the window to the file name
+        setWindowTitle(FN);
+
+        // Set status bar
+        ChangeStatusBar(FN);
+
+        // Interface for reading text
+        QTextStream in(&file);
+
+        // Copy text in the string
+        QString text = in.readAll();
+
+        // Put the text in the textEdit widget
+        ui->textEdit->setText(text);
+
+        // Close the file
+        file.close();
+    }
 }

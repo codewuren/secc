@@ -1,3 +1,7 @@
+/*
+*   Author: CodeWuRen
+*/
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -6,7 +10,6 @@
 #include <QFileDialog>
 #include <QTextStream>
 #include <QMessageBox>
-#include <QStatusBar>
 #include "highlighter.h"
 
 QT_BEGIN_NAMESPACE
@@ -24,15 +27,19 @@ private:
     Ui::MainWindow *ui;
     QString currentFile = "";
     Highlighter *highlighter;
+    QStatusBar *statbar = statusBar();
 
 private slots:
-    void on_actionNew_triggered();
-    void on_actionOpen_triggered();
-    void on_actionSave_as_triggered();
-    void on_actionSave_triggered();
-    void on_actionAbout_triggered();
-    void createStatusBar();
-    void changeStatusBar(QString fileName);
-    void clearStatusBar();
+    void NewFile();
+    void OpenFile();
+    void SaveAs();
+    void Save();
+    void About();
+
+public:
+    void CreateStatusBar();
+    void ChangeStatusBar(QString fileName);
+    void ClearStatusBar();
+    void OpenFileCommand();
 };
 #endif // MAINWINDOW_H

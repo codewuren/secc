@@ -1,3 +1,7 @@
+/*
+*   Author: CodeWuRen
+*/
+
 #ifndef HIGHLIGHTER_H
 #define HIGHLIGHTER_H
 

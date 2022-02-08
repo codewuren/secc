@@ -1,8 +1,10 @@
+/*
+*   Author: CodeWuRen
+*/
+
 #include "highlighter.h"
 
-Highlighter::Highlighter(QTextDocument *parent)
-    : QSyntaxHighlighter(parent)
-{
+Highlighter::Highlighter(QTextDocument *parent) : QSyntaxHighlighter(parent) {
     HighlightingRule rule;
 
     keywordFormat.setForeground(Qt::darkBlue);
@@ -59,8 +61,7 @@ Highlighter::Highlighter(QTextDocument *parent)
     commentEndExpression = QRegularExpression(QStringLiteral("\\*/"));
 }
 
-void Highlighter::highlightBlock(const QString &text)
-{
+void Highlighter::highlightBlock(const QString &text) {
     for (const HighlightingRule &rule : qAsConst(highlightingRules)) {
         QRegularExpressionMatchIterator matchIterator = rule.pattern.globalMatch(text);
         while (matchIterator.hasNext()) {
